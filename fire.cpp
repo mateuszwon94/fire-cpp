@@ -7,6 +7,7 @@
 #include <thread>
 #include <chrono>
 #include <utility>
+#include <sstream>
 
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
@@ -76,13 +77,15 @@ public:
     }
 
     void print() {
+        std::stringstream ss = std::stringstream();
         // print all but last line
         for (size_t i = 0; i < _height-1; ++i) {
             for (size_t j = 0; j < _width-2; ++j) {
-                std::cout << fire_chars[_fire[i][j]];
+                ss << fire_chars[_fire[i][j]];
             }
-            std::cout << std::endl;
+            ss << "\n";
         }
+        std::cout << ss.str();
     }
 
     void resize() {
@@ -119,7 +122,7 @@ private:
     }
 
     size_t random_index() {
-        return std::floor(random() * (_fire.back().size() - 1));
+        return std::floor(random() * (_width - 1));
     }
 
     std::deque<std::deque<uint8_t>> _fire;
